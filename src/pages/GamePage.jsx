@@ -11,7 +11,7 @@ export default function GamePage({ onEnd }) {
 
   return (
     <div className="flex flex-col items-center">
-      <Header title={`Гравець: ${currentPlayer}`} />
+      <Header title={`Player: ${currentPlayer}`} />
       <div className="grid grid-cols-7 gap-1 p-2 border">
         {board.map((row, i) =>
           row.map((cell, j) => (
@@ -24,9 +24,16 @@ export default function GamePage({ onEnd }) {
           ))
         )}
       </div>
-      {winner && <p className="mt-2 text-xl">Переможець: {winner === "draw" ? "Нічия" : winner}</p>}
-      <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded" onClick={handleEnd}>
-        Завершити гру
+      {winner && (
+        <p className="mt-2 text-xl">
+          Winner: {winner === "draw" ? "Draw" : winner}
+        </p>
+      )}
+      <button
+        className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+        onClick={handleEnd}
+      >
+        End Game
       </button>
     </div>
   );
