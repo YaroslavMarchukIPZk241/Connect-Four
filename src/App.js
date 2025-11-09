@@ -1,24 +1,18 @@
-import { useState } from "react";
-import "./App.css";
-
+import usePageState from "./hooks/usePageState";
 import StartPage from "./pages/StartPage";
 import GamePage from "./pages/GamePage";
 import ResultPage from "./pages/ResultPage";
 
 function App() {
-  const [page, setPage] = useState("start");
-  const handleStart = () => setPage("game");
-  const handleEnd = () => setPage("result");
-  const handleRestart = () => setPage("start");
+  const { page, result, goToStart, goToGame, goToResult } = usePageState();
 
   return (
-    <div className="App">
-      {page === "start" && <StartPage onStart={handleStart} />}
-      {page === "game" && <GamePage onEnd={handleEnd} />}
-      {page === "result" && <ResultPage result="draw" onRestart={handleRestart} />}
-    </div>
+    <>
+      {page === "start" && <StartPage onStart={goToGame} />}
+      {page === "game" && <GamePage onEnd={goToResult} />}
+      {page === "result" && <ResultPage result={result} onRestart={goToStart} />}
+    </>
   );
 }
-
 
 export default App;
