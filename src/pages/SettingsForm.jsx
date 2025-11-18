@@ -6,20 +6,20 @@ import { useSettings } from "../context/SettingsContext";
 
 const validationSchema = Yup.object({
   rows: Yup.number()
-    .min(4, "Мінімум 4")
-    .max(10, "Максимум 10")
-    .required("Обов'язково"),
+    .min(4, "Minimum 4")
+    .max(10, "Maximum 10")
+    .required("Required"),
   columns: Yup.number()
-    .min(4, "Мінімум 4")
-    .max(10, "Максимум 10")
-    .required("Обов'язково"),
+    .min(4, "Minimum 4")
+    .max(10, "Maximum 10")
+    .required("Required"),
   perMoveSeconds: Yup.number()
-    .min(5, "Мінімум 5 сек")
-    .max(60, "Максимум 60 сек")
-    .required("Обов'язково"),
+    .min(5, "Minimum 5 sec")
+    .max(60, "Maximum 60 sec")
+    .required("Required"),
   difficulty: Yup.string()
     .oneOf(["easy", "normal", "hard", "custom"])
-    .required("Обов'язково")
+    .required("Required")
 });
 
 export default function SettingsForm({ onClose }) {
@@ -60,25 +60,25 @@ export default function SettingsForm({ onClose }) {
         <Form className="flex flex-col gap-4 p-4 max-h-[70vh] overflow-auto">
 
           <div className="flex flex-col">
-            <label className="font-semibold">Рядки:</label>
+            <label className="font-semibold">Rows:</label>
             <Field type="number" name="rows" className="border p-1 rounded" />
             <ErrorMessage name="rows" component="div" className="text-red-500 text-sm" />
           </div>
 
           <div className="flex flex-col">
-            <label className="font-semibold">Стовпці:</label>
+            <label className="font-semibold">Columns:</label>
             <Field type="number" name="columns" className="border p-1 rounded" />
             <ErrorMessage name="columns" component="div" className="text-red-500 text-sm" />
           </div>
 
           <div className="flex flex-col">
-            <label className="font-semibold">Час на хід (секунди):</label>
+            <label className="font-semibold">Time per move (seconds):</label>
             <Field type="number" name="perMoveSeconds" className="border p-1 rounded" />
             <ErrorMessage name="perMoveSeconds" component="div" className="text-red-500 text-sm" />
           </div>
 
           <div className="flex flex-col">
-            <label className="font-semibold">Складність:</label>
+            <label className="font-semibold">Difficulty:</label>
             <Field
               as="select"
               name="difficulty"
@@ -89,22 +89,22 @@ export default function SettingsForm({ onClose }) {
                 if (val !== "custom") applyPreset(val);
               }}
             >
-              <option value="easy">Легко</option>
-              <option value="normal">Нормально</option>
-              <option value="hard">Важко</option>
-              <option value="custom">Своя складність</option>
+              <option value="easy">Easy</option>
+              <option value="normal">Normal</option>
+              <option value="hard">Hard</option>
+              <option value="custom">Custom</option>
             </Field>
             <ErrorMessage name="difficulty" component="div" className="text-red-500 text-sm" />
           </div>
 
           <div className="flex gap-2 mt-2">
-            <Button type="submit" text="Зберегти" />
+            <Button type="submit" text="Save" />
             <button
               type="button"
               onClick={onClose}
               className="px-4 py-2 border rounded"
             >
-              Скасувати
+              Cancel
             </button>
           </div>
         </Form>

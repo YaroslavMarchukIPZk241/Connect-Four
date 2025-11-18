@@ -23,24 +23,23 @@ function App() {
     <SettingsProvider>
       <div className="App">
         <header className="p-3 flex justify-between items-center">
-          <h1 className="text-xl font-bold">Чотири в ряд</h1>
+          <h1 className="text-xl font-bold">Connect Four</h1>
           <div>
             <button
               onClick={() => setShowSettings(true)}
               className="mr-2 px-3 py-1 border rounded"
             >
-              Налаштування
+              Settings
             </button>
             <button
               onClick={() => setPage("start")}
               className="px-3 py-1 border rounded"
             >
-              Головна
+              Home
             </button>
           </div>
         </header>
 
-    
         <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
 
         {page === "start" && <StartPage onStart={handleStart} />}
