@@ -1,44 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-export default function useGameLogic({ rows = 6, columns = 7, perMoveSeconds = 10 } = {}) {
+export default function useGameLogic(rows = 6, columns = 7) {
   const [board, setBoard] = useState(Array(rows).fill(null).map(() => Array(columns).fill(null)));
   const [currentPlayer, setCurrentPlayer] = useState("R"); 
   const [winner, setWinner] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(perMoveSeconds);
-  const timerRef = useRef(null);
-  useEffect(() => {
-    resetGame();
-  }, [rows, columns, perMoveSeconds]);
-
-  useEffect(() => {
-    if (winner) clearTimer();
-  }, [winner]);
-
-  useEffect(() => {
-    setTimeLeft(perMoveSeconds);
-    startTimer();
-  }, [currentPlayer]);
-
-  const startTimer = () => {
-    clearTimer();
-    timerRef.current = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearTimer();
-          setWinner(currentPlayer === "R" ? "Y" : "R"); 
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
-
-  const clearTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-  };
 
   const makeMove = (col) => {
     if (winner) return; 
@@ -52,10 +17,8 @@ export default function useGameLogic({ rows = 6, columns = 7, perMoveSeconds = 1
 
     if (checkWin(newBoard, actualRow, col, currentPlayer)) {
       setWinner(currentPlayer);
-      clearTimer();
     } else if (newBoard.every(r => r.every(cell => cell))) {
       setWinner("draw"); 
-      clearTimer();
     } else {
       setCurrentPlayer(currentPlayer === "R" ? "Y" : "R");
     }
@@ -65,16 +28,11 @@ export default function useGameLogic({ rows = 6, columns = 7, perMoveSeconds = 1
     setBoard(Array(rows).fill(null).map(() => Array(columns).fill(null)));
     setCurrentPlayer("R");
     setWinner(null);
-    setTimeLeft(perMoveSeconds);
-    clearTimer();
-    startTimer();
   };
-  useEffect(() => {
-    return () => clearTimer();
-  }, []);
 
-  return { board, currentPlayer, winner, makeMove, resetGame, timeLeft };
+  return { board, currentPlayer, winner, makeMove, resetGame };
 }
+
 function checkWin(board, row, col, player) {
   const directions = [
     [[0,1],[0,-1]],
