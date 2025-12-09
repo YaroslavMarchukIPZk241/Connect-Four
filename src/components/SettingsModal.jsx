@@ -2,7 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import SettingsForm from "../pages/SettingsForm";
 
-const modalRoot = document.getElementById("modal-root"); // переконайся, що є в index.html
+const modalRoot = document.getElementById("modal-root");
 
 export default function SettingsModal({ open, onClose }) {
   if (!open) return null;
@@ -11,7 +11,7 @@ export default function SettingsModal({ open, onClose }) {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/50" onClick={onClose}></div>
       <div className="bg-white rounded-lg p-6 z-10 w-11/12 max-w-md">
-        <h2 className="text-2xl mb-4">Налаштування гри</h2>
+        <h2 className="text-2xl mb-4">Game settings</h2>
         <SettingsForm onClose={onClose} />
       </div>
     </div>,

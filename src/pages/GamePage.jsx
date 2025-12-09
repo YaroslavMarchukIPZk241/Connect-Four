@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import EndGameModal from "../components/EndGameModal";
 import SettingsModal from "../components/SettingsModal";
 import { useSettings } from "../context/SettingsContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function GamePage() {
   const { settings } = useSettings();
@@ -11,14 +12,23 @@ export default function GamePage() {
   const [endModalOpen, setEndModalOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [score, setScore] = useState({ R: 0, Y: 0 });
-  useEffect(() => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const handleShowResult = () => {
+  setEndModalOpen(false);
+  navigate(`/result/${id}`, { state: { result: winner } });
+};
+
+useEffect(() => {
     if (winner) {
       setEndModalOpen(true);
       if (winner === "R" || winner === "Y") {
         setScore(prev => ({ ...prev, [winner]: prev[winner] + 1 }));
       }
     }
-  }, [winner]);
+}, [winner]);
+
   const handleRestart = () => {
     resetGame();
     setEndModalOpen(false);
@@ -29,26 +39,22 @@ export default function GamePage() {
     resetGame();
     setEndModalOpen(false);
   };
+
   const handleCloseEndModal = () => {
     setEndModalOpen(false);
   };
 
   return (
     <div className="flex flex-col items-center p-4">
+      <Header title={`Player: ${currentPlayer}`} />
 
-      <Header title={`Гравець: ${currentPlayer}`} />
-
-   
       <div className="flex gap-4 mb-2">
-        <p className="font-semibold text-red-500">Червоний: {score.R}</p>
-        <p className="font-semibold text-yellow-500">Жовтий: {score.Y}</p>
+        <p className="font-semibold text-red-500">Red: {score.R}</p>
+        <p className="font-semibold text-yellow-500">Yellow: {score.Y}</p>
       </div>
 
-     
-      <p>Час на хід: {timeLeft} сек</p>
+      <p>Time left: {timeLeft} sec</p>
 
-      
-    
       <div
         className="grid gap-1 mb-4"
         style={{ gridTemplateColumns: `repeat(${board[0].length}, 40px)` }}
@@ -68,13 +74,13 @@ export default function GamePage() {
         )}
       </div>
 
-    
       <EndGameModal
         open={endModalOpen}
         winner={winner}
         onRestart={handleRestart}
         onNextRound={handleNextRound}
         onClose={handleCloseEndModal}
+        onShowResult={handleShowResult} 
       />
 
       <SettingsModal
