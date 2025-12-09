@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import EndGameModal from "../components/EndGameModal";
 import SettingsModal from "../components/SettingsModal";
 import { useSettings } from "../context/SettingsContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function GamePage() {
   const { settings } = useSettings();
@@ -11,15 +12,16 @@ export default function GamePage() {
   const [endModalOpen, setEndModalOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [score, setScore] = useState({ R: 0, Y: 0 });
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-  useEffect(() => {
-    if (winner) {
-      setEndModalOpen(true);
-      if (winner === "R" || winner === "Y") {
-        setScore(prev => ({ ...prev, [winner]: prev[winner] + 1 }));
-      }
-    }
-  }, [winner]);
+useEffect(() => {
+  if (winner) {
+    setEndModalOpen(true);
+
+    navigate(`/result/${id}`, { state: { result: winner } });
+  }
+}, [winner]);
 
   const handleRestart = () => {
     resetGame();
