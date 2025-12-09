@@ -15,12 +15,18 @@ export default function GamePage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-useEffect(() => {
-  if (winner) {
-    setEndModalOpen(true);
+  const handleShowResult = () => {
+  setEndModalOpen(false);
+  navigate(`/result/${id}`, { state: { result: winner } });
+};
 
-    navigate(`/result/${id}`, { state: { result: winner } });
-  }
+useEffect(() => {
+    if (winner) {
+      setEndModalOpen(true);
+      if (winner === "R" || winner === "Y") {
+        setScore(prev => ({ ...prev, [winner]: prev[winner] + 1 }));
+      }
+    }
 }, [winner]);
 
   const handleRestart = () => {
@@ -74,6 +80,7 @@ useEffect(() => {
         onRestart={handleRestart}
         onNextRound={handleNextRound}
         onClose={handleCloseEndModal}
+        onShowResult={handleShowResult} 
       />
 
       <SettingsModal
