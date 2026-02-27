@@ -7,12 +7,13 @@ import ResultPage from "./pages/ResultPage";
 import { SettingsProvider } from "./context/SettingsContext";
 import SettingsModal from "./components/SettingsModal";
 import { useState } from "react";
-
+import CookieConsentBanner from "./components/CookieConsentBanner";
 function AppWrapper() {
   return (
     <SettingsProvider>
       <Router>
         <App />
+        <CookieConsentBanner />
       </Router>
     </SettingsProvider>
   );
@@ -23,6 +24,7 @@ function App() {
 
   return (
     <div className="App">
+        
       <header className="p-3 flex justify-between items-center">
         <h1 className="text-xl font-bold">Connect Four</h1>
 
