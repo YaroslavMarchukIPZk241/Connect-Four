@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/SettingsForm.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/SettingsForm.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import Button from "../components/Button";
+import { useSettings } from "../context/SettingsContext";
+
+const validationSchema = Yup.object({
+  rows: Yup.number()
+    .min(4, "Minimum 4")
+    .max(10, "Maximum 10")
+    .required("Required"),
+  columns: Yup.number()
+    .min(4, "Minimum 4")
+    .max(10, "Maximum 10")
+    .required("Required"),
+  perMoveSeconds: Yup.number()
+    .min(5, "Minimum 5 sec")
+    .max(60, "Maximum 60 sec")
+    .required("Required"),
+  difficulty: Yup.string()
+    .oneOf(["easy", "normal", "hard", "custom"])
+    .required("Required")
+});
+
+/**
+ * Settings form allowing users to configure game parameters.
+ *
+ * Uses Formik and Yup validation.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.onClose
+ */
+export default function SettingsForm({ onClose }) {
+  const { settings, updateSettings, applyPreset } = useSettings();
+  const [difficultyLabel, setDifficultyLabel] = useState(settings.difficulty);
+
+  useEffect(() => {
+    const { rows, columns, perMoveSeconds } = settings;
+    if (rows === 6 &amp;&amp; columns === 7 &amp;&amp; perMoveSeconds === 20) setDifficultyLabel("easy");
+    else if (rows === 7 &amp;&amp; columns === 7 &amp;&amp; perMoveSeconds === 15) setDifficultyLabel("normal");
+    else if (rows === 8 &amp;&amp; columns === 8 &amp;&amp; perMoveSeconds === 10) setDifficultyLabel("hard");
+    else setDifficultyLabel("custom");
+  }, [settings]);
+
+  return (
+    &lt;Formik
+      initialValues={{
+        ...settings,
+        difficulty: difficultyLabel
+      }}
+      enableReinitialize
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        if (values.difficulty !== "custom") {
+          applyPreset(values.difficulty);
+        } else {
+          updateSettings({
+            rows: Number(values.rows),
+            columns: Number(values.columns),
+            perMoveSeconds: Number(values.perMoveSeconds),
+            difficulty: "custom"
+          });
+        }
+        if (onClose) onClose();
+      }}
+    >
+      {({ values, setFieldValue }) => (
+        &lt;Form className="flex flex-col gap-4 p-4 max-h-[70vh] overflow-auto">
+
+          &lt;div className="flex flex-col">
+            &lt;label className="font-semibold">Rows:&lt;/label>
+            &lt;Field type="number" name="rows" className="border p-1 rounded" />
+            &lt;ErrorMessage name="rows" component="div" className="text-red-500 text-sm" />
+          &lt;/div>
+
+          &lt;div className="flex flex-col">
+            &lt;label className="font-semibold">Columns:&lt;/label>
+            &lt;Field type="number" name="columns" className="border p-1 rounded" />
+            &lt;ErrorMessage name="columns" component="div" className="text-red-500 text-sm" />
+          &lt;/div>
+
+          &lt;div className="flex flex-col">
+            &lt;label className="font-semibold">Time per move (seconds):&lt;/label>
+            &lt;Field type="number" name="perMoveSeconds" className="border p-1 rounded" />
+            &lt;ErrorMessage name="perMoveSeconds" component="div" className="text-red-500 text-sm" />
+          &lt;/div>
+
+          &lt;div className="flex flex-col">
+            &lt;label className="font-semibold">Difficulty:&lt;/label>
+            &lt;Field
+              as="select"
+              name="difficulty"
+              className="border p-1 rounded"
+              onChange={(e) => {
+                const val = e.target.value;
+                setFieldValue("difficulty", val);
+                if (val !== "custom") applyPreset(val);
+              }}
+            >
+              &lt;option value="easy">Easy&lt;/option>
+              &lt;option value="normal">Normal&lt;/option>
+              &lt;option value="hard">Hard&lt;/option>
+              &lt;option value="custom">Custom&lt;/option>
+            &lt;/Field>
+            &lt;ErrorMessage name="difficulty" component="div" className="text-red-500 text-sm" />
+          &lt;/div>
+
+          &lt;div className="flex gap-2 mt-2">
+            &lt;Button type="submit" text="Save" />
+            &lt;button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border rounded"
+            >
+              Cancel
+            &lt;/button>
+          &lt;/div>
+        &lt;/Form>
+      )}
+    &lt;/Formik>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#SettingsProvider">SettingsProvider</a></li><li><a href="global.html#useSettings">useSettings</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Feb 27 2026 22:15:01 GMT+0200 (за східноєвропейським стандартним часом)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

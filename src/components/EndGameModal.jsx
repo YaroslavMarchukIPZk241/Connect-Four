@@ -3,7 +3,20 @@ import { createPortal } from "react-dom";
 import Button from "./Button";
 
 const modalRoot = document.getElementById("modal-root");
-
+/**
+ * Modal displayed when the game ends.
+ *
+ * Shows winner information and available actions.
+ *
+ * @component
+ * @param {Object} props
+ * @param {boolean} props.open
+ * @param {string} props.winner
+ * @param {Function} props.onNextRound
+ * @param {Function} props.onRestart
+ * @param {Function} props.onClose
+ * @param {Function} props.onShowResult
+ */
 export default function EndGameModal({
   open,
   winner,

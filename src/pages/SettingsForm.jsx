@@ -22,6 +22,15 @@ const validationSchema = Yup.object({
     .required("Required")
 });
 
+/**
+ * Settings form allowing users to configure game parameters.
+ *
+ * Uses Formik and Yup validation.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.onClose
+ */
 export default function SettingsForm({ onClose }) {
   const { settings, updateSettings, applyPreset } = useSettings();
   const [difficultyLabel, setDifficultyLabel] = useState(settings.difficulty);

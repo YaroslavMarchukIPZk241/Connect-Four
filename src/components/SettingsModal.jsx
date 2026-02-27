@@ -3,7 +3,16 @@ import { createPortal } from "react-dom";
 import SettingsForm from "../pages/SettingsForm";
 
 const modalRoot = document.getElementById("modal-root");
-
+/**
+ * Modal window containing game settings form.
+ *
+ * Uses React Portal to render above application content.
+ *
+ * @component
+ * @param {Object} props
+ * @param {boolean} props.open
+ * @param {Function} props.onClose
+ */
 export default function SettingsModal({ open, onClose }) {
   if (!open) return null;
 

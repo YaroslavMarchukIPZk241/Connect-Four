@@ -18,7 +18,13 @@ function AppWrapper() {
     </SettingsProvider>
   );
 }
-
+/**
+ * Main application component.
+ * Handles routing and layout structure.
+ *
+ * @component
+ * @returns {JSX.Element}
+ */
 function App() {
   const [showSettings, setShowSettings] = useState(false);
 
