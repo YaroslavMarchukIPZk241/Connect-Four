@@ -170,5 +170,7 @@ Possible extensions:
 - Mobile UI optimization
 
 ---
+## Privacy Policy
+See PRIVACY_POLICY.md for GDPR compliance and usage terms.
 
 ⭐ Academic demonstration project.
