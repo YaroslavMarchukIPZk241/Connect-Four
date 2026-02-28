@@ -4,13 +4,7 @@ import Cookies from "js-cookie";
 const COOKIE_NAME = "cookie_consent";
 
 /**
- * Cookie Consent Banner component.
- * Blocks access to the application until user accepts cookies.
- *
- * Stores consent decision in browser cookies.
- *
- * @component
- * @returns {JSX.Element|null}
+ * @state {string|null} consent - User cookie decision
  */
 export default function CookieConsentBanner() {
     const [consent, setConsent] = useState(null);

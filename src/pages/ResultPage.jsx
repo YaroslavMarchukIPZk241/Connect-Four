@@ -15,7 +15,6 @@ export default function ResultPage() {
       <p className="text-xl mb-4">
         {result === "draw" ? "Draw" : `Winner: ${result}`}
       </p>
-
       <Button text="Play Again" onClick={() => navigate(`/game/${id}`)} />
     </div>
   );

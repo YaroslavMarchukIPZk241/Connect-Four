@@ -1,12 +1,6 @@
 /**
- * Settings Context for Connect Four game.
- * 
- * Provides global game configuration such as:
- * - board size
- * - move timer
- * - difficulty presets
- *
- * Settings are persisted in localStorage.
+ * @module SettingsContext
+ * @description Settings Context for Connect Four game.
  */
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { loadFromStorage, saveToStorage } from "../utils/storage";
